@@ -1,0 +1,163 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sharp Cocoro Air",
+        "description": "Wprowadź dane konta Sharp Cocoro Air (EU).",
+        "data": {
+          "email": "E-mail",
+          "password": "Hasło"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Ponowne uwierzytelnienie",
+        "description": "Twoja sesja wygasła. Wprowadź ponownie dane logowania.",
+        "data": {
+          "email": "E-mail",
+          "password": "Hasło"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nie można połączyć się z serwerami Sharp Cocoro Air.",
+      "invalid_auth": "Nieprawidłowy e-mail lub hasło.",
+      "unknown": "Wystąpił nieoczekiwany błąd."
+    },
+    "abort": {
+      "already_configured": "To konto jest już skonfigurowane.",
+      "reauth_successful": "Ponowne uwierzytelnienie zakończone sukcesem."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcje",
+        "data": {
+          "scan_interval": "Interwał odpytywania (minuty)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "fan": {
+      "air_purifier": {
+        "name": "Oczyszczacz powietrza",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "auto": "Automatyczny",
+              "silent": "Cichy",
+              "medium": "Średni",
+              "high": "Wysoki",
+              "night": "Nocny",
+              "pollen": "Pyłki",
+              "ai_auto": "Auto AI",
+              "powerful": "Maksymalny"
+            }
+          }
+        }
+      }
+    },
+    "switch": {
+      "humidification": {
+        "name": "Nawilżanie"
+      }
+    },
+    "sensor": {
+      "power": {
+        "name": "Zasilanie",
+        "state": {
+          "on": "Włączone",
+          "off": "Wyłączone"
+        }
+      },
+      "water_tank": {
+        "name": "Zbiornik wody",
+        "state": {
+          "full": "Pełny",
+          "empty": "Pusty"
+        }
+      },
+      "temperature": {
+        "name": "Temperatura"
+      },
+      "humidity": {
+        "name": "Wilgotność"
+      },
+      "fault": {
+        "name": "Status awarii",
+        "state": {
+          "ok": "OK",
+          "fault": "Awaria"
+        }
+      },
+      "operation_mode": {
+        "name": "Tryb pracy",
+        "state": {
+          "auto": "Automatyczny",
+          "night": "Nocny",
+          "pollen": "Pyłki",
+          "silent": "Cichy",
+          "medium": "Średni",
+          "high": "Wysoki",
+          "ai_auto": "Auto AI",
+          "powerful": "Maksymalny"
+        }
+      },
+      "humidification": {
+        "name": "Nawilżanie",
+        "state": {
+          "on": "Włączone",
+          "off": "Wyłączone"
+        }
+      },
+      "fine_particles": {
+        "name": "Drobne cząstki"
+      },
+      "air_quality": {
+        "name": "Jakość powietrza"
+      },
+      "odor_level": {
+        "name": "Poziom zapachów"
+      },
+      "dust_level": {
+        "name": "Poziom kurzu"
+      },
+      "overall_dirt": {
+        "name": "Ogólna jakość powietrza",
+        "state": {
+          "clean": "Czyste",
+          "low": "Niskie zanieczyszczenie",
+          "slightly_high": "Lekko podwyższone",
+          "high": "Wysokie zanieczyszczenie",
+          "very_high": "Bardzo wysokie zanieczyszczenie"
+        }
+      },
+      "light_detected": {
+        "name": "Światło",
+        "state": {
+          "detected": "Wykryto",
+          "not_detected": "Brak"
+        }
+      },
+      "filter_hepa": {
+        "name": "Filtr HEPA"
+      },
+      "filter_deodorizing": {
+        "name": "Filtr odorów"
+      },
+      "filter_humidifying": {
+        "name": "Filtr nawilżający"
+      },
+      "filter_ion_unit": {
+        "name": "Generator jonów"
+      },
+      "filter_plasmacluster": {
+        "name": "Plasmacluster"
+      },
+      "power_consumption": {
+        "name": "Pobór mocy"
+      }
+    }
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sharp Cocoro Air",
+        "description": "Introduce las credenciales de tu cuenta Sharp Cocoro Air (EU).",
+        "data": {
+          "email": "Correo electrónico",
+          "password": "Contraseña"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reautenticación",
+        "description": "Tu sesión ha caducado. Vuelve a introducir tus credenciales.",
+        "data": {
+          "email": "Correo electrónico",
+          "password": "Contraseña"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "No se puede conectar con los servidores de Sharp Cocoro Air.",
+      "invalid_auth": "Correo o contraseña no válidos.",
+      "unknown": "Se ha producido un error inesperado."
+    },
+    "abort": {
+      "already_configured": "Esta cuenta ya está configurada.",
+      "reauth_successful": "Reautenticación realizada con éxito."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opciones",
+        "data": {
+          "scan_interval": "Intervalo de sondeo (minutos)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "fan": {
+      "air_purifier": {
+        "name": "Purificador de aire",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "auto": "Automático",
+              "silent": "Silencioso",
+              "medium": "Medio",
+              "high": "Alto",
+              "night": "Nocturno",
+              "pollen": "Polen",
+              "ai_auto": "Auto IA",
+              "powerful": "Potente"
+            }
+          }
+        }
+      }
+    },
+    "switch": {
+      "humidification": {
+        "name": "Humidificación"
+      }
+    },
+    "sensor": {
+      "power": {
+        "name": "Encendido",
+        "state": {
+          "on": "Encendido",
+          "off": "Apagado"
+        }
+      },
+      "water_tank": {
+        "name": "Depósito de agua",
+        "state": {
+          "full": "Lleno",
+          "empty": "Vacío"
+        }
+      },
+      "temperature": {
+        "name": "Temperatura"
+      },
+      "humidity": {
+        "name": "Humedad"
+      },
+      "fault": {
+        "name": "Estado de avería",
+        "state": {
+          "ok": "OK",
+          "fault": "Avería"
+        }
+      },
+      "operation_mode": {
+        "name": "Modo de funcionamiento",
+        "state": {
+          "auto": "Automático",
+          "night": "Nocturno",
+          "pollen": "Polen",
+          "silent": "Silencioso",
+          "medium": "Medio",
+          "high": "Alto",
+          "ai_auto": "Auto IA",
+          "powerful": "Potente"
+        }
+      },
+      "humidification": {
+        "name": "Humidificación",
+        "state": {
+          "on": "Encendida",
+          "off": "Apagada"
+        }
+      },
+      "fine_particles": {
+        "name": "Partículas finas"
+      },
+      "air_quality": {
+        "name": "Calidad del aire"
+      },
+      "odor_level": {
+        "name": "Nivel de olor"
+      },
+      "dust_level": {
+        "name": "Nivel de polvo"
+      },
+      "overall_dirt": {
+        "name": "Calidad general del aire",
+        "state": {
+          "clean": "Limpio",
+          "low": "Bajo",
+          "slightly_high": "Ligeramente alto",
+          "high": "Alto",
+          "very_high": "Muy alto"
+        }
+      },
+      "light_detected": {
+        "name": "Luz",
+        "state": {
+          "detected": "Detectada",
+          "not_detected": "No detectada"
+        }
+      },
+      "filter_hepa": {
+        "name": "Filtro HEPA"
+      },
+      "filter_deodorizing": {
+        "name": "Filtro desodorizante"
+      },
+      "filter_humidifying": {
+        "name": "Filtro humidificador"
+      },
+      "filter_ion_unit": {
+        "name": "Unidad de iones"
+      },
+      "filter_plasmacluster": {
+        "name": "Iones Plasmacluster"
+      },
+      "power_consumption": {
+        "name": "Consumo de energía"
+      }
+    }
+  }
+}
