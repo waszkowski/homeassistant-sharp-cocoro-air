@@ -26,6 +26,7 @@ class SharpSensorDescription(SensorEntityDescription):
     """Describes a Sharp Cocoro Air sensor."""
 
     value_fn: Callable[[DeviceSensors], Any]
+    power_dependent: bool = True
 
 
 def _bool_state(value: bool | None, true_state: str, false_state: str) -> str | None:
@@ -41,6 +42,7 @@ SENSOR_DESCRIPTIONS: tuple[SharpSensorDescription, ...] = (
         device_class=SensorDeviceClass.ENUM,
         options=["on", "off"],
         value_fn=lambda s: _bool_state(s.power_on, "on", "off"),
+        power_dependent=False,
     ),
     SharpSensorDescription(
         key="water_tank",
@@ -135,6 +137,7 @@ SENSOR_DESCRIPTIONS: tuple[SharpSensorDescription, ...] = (
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda s: s.filters.hepa,
+        power_dependent=False,
     ),
     SharpSensorDescription(
         key="filter_deodorizing",
@@ -143,6 +146,7 @@ SENSOR_DESCRIPTIONS: tuple[SharpSensorDescription, ...] = (
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda s: s.filters.deodorizing,
+        power_dependent=False,
     ),
     SharpSensorDescription(
         key="filter_humidifying",
@@ -151,6 +155,7 @@ SENSOR_DESCRIPTIONS: tuple[SharpSensorDescription, ...] = (
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda s: s.filters.humidifying,
+        power_dependent=False,
     ),
     SharpSensorDescription(
         key="filter_ion_unit",
@@ -159,6 +164,7 @@ SENSOR_DESCRIPTIONS: tuple[SharpSensorDescription, ...] = (
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda s: s.filters.ion_unit,
+        power_dependent=False,
     ),
     SharpSensorDescription(
         key="filter_plasmacluster",
@@ -167,6 +173,7 @@ SENSOR_DESCRIPTIONS: tuple[SharpSensorDescription, ...] = (
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda s: s.filters.plasmacluster,
+        power_dependent=False,
     ),
     SharpSensorDescription(
         key="power_consumption",
@@ -214,4 +221,7 @@ class SharpCocoroAirSensor(SharpCocoroAirEntity, SensorEntity):
         device = self.device
         if device is None:
             return None
-        return self.entity_description.value_fn(device.sensors)
+        sensors = device.sensors
+        if self.entity_description.power_dependent and not sensors.power_on:
+            return None
+        return self.entity_description.value_fn(sensors)
