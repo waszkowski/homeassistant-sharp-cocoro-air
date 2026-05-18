@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import re
 import secrets
@@ -118,6 +119,7 @@ class DeviceInfo:
     echonet_node: str = ""
     echonet_object: str = ""
     sensors: DeviceSensors = field(default_factory=DeviceSensors)
+    raw_response: str = ""
 
 
 def _parse_echonet_properties(hex_string: str) -> dict[int, bytes]:
@@ -536,7 +538,8 @@ class SharpCocoroAirApi:
                     raise AuthenticationError("Session expired")
                 if resp.status != 200:
                     raise ApiConnectionError(f"boxInfo request failed: {resp.status}")
-                data = await resp.json()
+                raw_text = await resp.text()
+                data = json.loads(raw_text)
         except aiohttp.ClientError as err:
             raise ApiConnectionError(f"Connection error: {err}") from err
 
@@ -561,6 +564,7 @@ class SharpCocoroAirApi:
                     echonet_node=echonet.get("echonetNode", ""),
                     echonet_object=echonet.get("echonetObject", ""),
                     sensors=sensors,
+                    raw_response=raw_text,
                 )
                 devices.append(device)
                 if box_id:

@@ -157,6 +157,9 @@
       },
       "power_consumption": {
         "name": "Pobór mocy"
+      },
+      "raw_payload": {
+        "name": "Surowy payload API"
       }
     }
   }

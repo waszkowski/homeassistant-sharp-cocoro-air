@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
@@ -13,7 +14,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import PERCENTAGE, UnitOfPower, UnitOfTemperature
+from homeassistant.const import EntityCategory, PERCENTAGE, UnitOfPower, UnitOfTemperature
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -194,11 +195,16 @@ async def async_setup_entry(
     """Set up Sharp Cocoro Air sensors from a config entry."""
     coordinator = entry.runtime_data.coordinator
 
-    async_add_entities(
+    entities: list[SensorEntity] = [
         SharpCocoroAirSensor(coordinator=coordinator, description=description, device=device)
         for device in coordinator.data
         for description in SENSOR_DESCRIPTIONS
+    ]
+    entities.extend(
+        SharpRawPayloadSensor(coordinator=coordinator, device=device)
+        for device in coordinator.data
     )
+    async_add_entities(entities)
 
 
 class SharpCocoroAirSensor(SharpCocoroAirEntity, SensorEntity):
@@ -225,3 +231,30 @@ class SharpCocoroAirSensor(SharpCocoroAirEntity, SensorEntity):
         if self.entity_description.power_dependent and not sensors.power_on:
             return None
         return self.entity_description.value_fn(sensors)
+
+
+class SharpRawPayloadSensor(SharpCocoroAirEntity, SensorEntity):
+    """Diagnostic sensor exposing the raw boxInfo API response as an attribute."""
+
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+    _attr_entity_registry_enabled_default = False
+    _attr_translation_key = "raw_payload"
+    _attr_icon = "mdi:bug"
+
+    def __init__(self, coordinator, device) -> None:
+        super().__init__(coordinator, device)
+        self._attr_unique_id = f"{device.box_id}_raw_payload"
+
+    @property
+    def native_value(self) -> str | None:
+        device = self.device
+        if device is None or not device.raw_response:
+            return None
+        return hashlib.md5(device.raw_response.encode()).hexdigest()[:12]
+
+    @property
+    def extra_state_attributes(self) -> dict[str, str] | None:
+        device = self.device
+        if device is None or not device.raw_response:
+            return None
+        return {"payload": device.raw_response}
