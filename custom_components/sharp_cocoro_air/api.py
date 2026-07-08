@@ -15,7 +15,6 @@ import aiohttp
 from .const import (
     EPC_EXTENDED_STATUS,
     EPC_FAULT_STATUS,
-    EPC_HUMIDIFICATION,
     EPC_INSTANT_POWER,
     EPC_OPERATION_DETAIL,
     EPC_POWER,
@@ -43,13 +42,13 @@ from .const import (
     F2_OVERALL_DIRT_BYTE,
     F2_WATER_TANK_BYTE,
     F2_ZEROS,
+    F3_HUMID_BYTE,
     F3_MODE_BYTE,
     FAULT_OCCURRED,
     HMS_API_BASE,
     HMS_APP_SECRET,
     HMS_APP_SECRET_ENCODED,
     HMS_SERVICE_NAME,
-    HUMIDIFICATION_ON,
     OAUTH_AUTHORIZE_URL,
     OAUTH_CLIENT_ID,
     OAUTH_REDIRECT_URI,
@@ -181,10 +180,6 @@ def _extract_sensors(properties: dict[int, bytes]) -> DeviceSensors:
             properties[EPC_INSTANT_POWER], "big"
         )
 
-    # Humidification (0xC0)
-    if EPC_HUMIDIFICATION in properties and len(properties[EPC_HUMIDIFICATION]) >= 1:
-        sensors.humidification_on = properties[EPC_HUMIDIFICATION][0] == HUMIDIFICATION_ON
-
     # Sensor data F1 (temperature, humidity, fine particles)
     f1 = properties.get(EPC_SENSOR_DATA)
     if f1 and len(f1) > max(F1_TEMPERATURE_OFFSET, F1_HUMIDITY_OFFSET):
@@ -204,10 +199,12 @@ def _extract_sensors(properties: dict[int, bytes]) -> DeviceSensors:
                 | f1[F1_PARTICLES_OFFSET + 2]
             )
 
-    # Operation mode from F3 property (Sharp proprietary, byte offset 4)
+    # Operation mode + humidification from F3 property (Sharp proprietary)
     f3 = properties.get(EPC_OPERATION_DETAIL)
     if f3 and len(f3) > F3_MODE_BYTE:
         sensors.operation_mode = OPERATION_MODES.get(f3[F3_MODE_BYTE])
+    if f3 and len(f3) > F3_HUMID_BYTE:
+        sensors.humidification_on = f3[F3_HUMID_BYTE] == 0xFF
 
     # Status flags F2 (water tank, odor, dust, light)
     f2 = properties.get(EPC_STATUS_FLAGS)
