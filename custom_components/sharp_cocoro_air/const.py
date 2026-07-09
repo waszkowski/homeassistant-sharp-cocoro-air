@@ -31,7 +31,6 @@ CONF_TERMINAL_APP_ID = "terminal_app_id"
 EPC_POWER = 0x80
 EPC_INSTANT_POWER = 0x84  # Instantaneous power consumption (W), big-endian uint
 EPC_FAULT_STATUS = 0x88
-EPC_HUMIDIFICATION = 0xC0
 EPC_EXTENDED_STATUS = 0xF0
 EPC_SENSOR_DATA = 0xF1
 EPC_STATUS_FLAGS = 0xF2
@@ -44,9 +43,6 @@ POWER_OFF = 0x31
 # Fault status — per ECHONET spec: 0x41 = fault, 0x42 = no fault
 FAULT_OCCURRED = 0x41
 FAULT_NONE = 0x42
-
-HUMIDIFICATION_OFF = 0x41
-HUMIDIFICATION_ON = 0x42
 
 # F1 sensor data byte offsets (0-based)
 F1_TEMPERATURE_OFFSET = 3
@@ -85,8 +81,9 @@ OVERALL_DIRT_LEVELS: dict[int, str] = {
     100: "very_high",
 }
 
-# F3 operation detail byte offset for mode (0-based)
+# F3 operation detail byte offsets (0-based)
 F3_MODE_BYTE = 4
+F3_HUMID_BYTE = 15  # humidification state: 0xFF = on, 0x00 = off
 
 # Operation modes from F3 property (Sharp proprietary)
 OPERATION_MODES = {
