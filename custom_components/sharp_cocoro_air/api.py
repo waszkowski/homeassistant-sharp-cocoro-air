@@ -39,9 +39,13 @@ from .const import (
     F2_DUST_LEVEL_BYTE,
     F2_LIGHT_DETECTED_BYTE,
     F2_ODOR_LEVEL_BYTE,
+    F1_LED_MODES,
     F2_OVERALL_DIRT_BYTE,
     F2_WATER_TANK_BYTE,
     F2_ZEROS,
+    F3_CHILD_LOCK_BYTE,
+    F3_LED_BYTE,
+    F3_LED_MODES,
     F3_HUMID_BYTE,
     F3_MODE_BYTE,
     FAULT_OCCURRED,
@@ -95,6 +99,8 @@ class DeviceSensors:
     water_tank_full: bool | None = None
     operation_mode: str | None = None
     humidification_on: bool | None = None
+    child_lock: bool | None = None
+    led_brightness: str | None = None
     fine_particles: int | None = None
     air_quality: int | None = None
     odor_level: int | None = None
@@ -205,6 +211,12 @@ def _extract_sensors(properties: dict[int, bytes]) -> DeviceSensors:
         sensors.operation_mode = OPERATION_MODES.get(f3[F3_MODE_BYTE])
     if f3 and len(f3) > F3_HUMID_BYTE:
         sensors.humidification_on = f3[F3_HUMID_BYTE] == 0xFF
+    if f3 and len(f3) > F3_CHILD_LOCK_BYTE:
+        sensors.child_lock = f3[F3_CHILD_LOCK_BYTE] == 0xFF
+    if f3 and len(f3) > F3_LED_BYTE:
+        sensors.led_brightness = F3_LED_MODES.get(f3[F3_LED_BYTE])
+    if sensors.led_brightness is None and f1 and len(f1) > 8:
+        sensors.led_brightness = F1_LED_MODES.get(f1[8] >> 4)
 
     # Status flags F2 (water tank, odor, dust, light)
     f2 = properties.get(EPC_STATUS_FLAGS)
@@ -631,7 +643,7 @@ class SharpCocoroAirApi:
             self._paired_box_ids.add(device.box_id)
 
     async def async_send_control(
-        self, device: DeviceInfo, power_code: str, f3_code: str
+        self, device: DeviceInfo, power_code: str, f3_code: str, f2_code: str = F2_ZEROS
     ) -> None:
         """Send a control command to a device.
 
@@ -673,7 +685,7 @@ class SharpCocoroAirApi:
                         {
                             "statusCode": "f2",
                             "valueType": "valueBinary",
-                            "valueBinary": {"code": F2_ZEROS},
+                            "valueBinary": {"code": f2_code},
                         },
                     ],
                 }

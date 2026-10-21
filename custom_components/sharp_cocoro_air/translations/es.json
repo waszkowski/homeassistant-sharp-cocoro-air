@@ -61,6 +61,9 @@
     "switch": {
       "humidification": {
         "name": "Humidificación"
+      },
+      "child_lock": {
+        "name": "Bloqueo infantil"
       }
     },
     "sensor": {
@@ -109,6 +112,13 @@
         "state": {
           "on": "Encendida",
           "off": "Apagada"
+        }
+      },
+      "child_lock": {
+        "name": "Bloqueo infantil",
+        "state": {
+          "on": "Activado",
+          "off": "Desactivado"
         }
       },
       "fine_particles": {
@@ -160,6 +170,24 @@
       },
       "raw_payload": {
         "name": "Payload bruto de la API"
+      },
+      "led_brightness": {
+        "name": "Brillo de LED",
+        "state": {
+          "auto": "Automático",
+          "dim": "Atenuado",
+          "off": "Apagado"
+        }
+      }
+    },
+    "select": {
+      "led_brightness": {
+        "name": "Brillo de LED",
+        "state": {
+          "auto": "Automático",
+          "dim": "Atenuado",
+          "off": "Apagado"
+        }
       }
     }
   }

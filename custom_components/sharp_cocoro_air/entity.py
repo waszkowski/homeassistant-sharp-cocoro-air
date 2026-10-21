@@ -5,7 +5,7 @@ from __future__ import annotations
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .api import AuthenticationError, DeviceInfo, SharpCocoroAirApi
-from .const import DOMAIN
+from .const import DOMAIN, F2_ZEROS
 from .coordinator import SharpCocoroAirCoordinator
 
 
@@ -52,12 +52,12 @@ class SharpCocoroAirControllableEntity(SharpCocoroAirEntity):
         self._api = api
 
     async def _send_control(
-        self, device: DeviceInfo, power_code: str, f3_code: str
+        self, device: DeviceInfo, power_code: str, f3_code: str, f2_code: str = F2_ZEROS
     ) -> None:
         """Send control, retrying once after re-auth on session expiry."""
         try:
-            await self._api.async_send_control(device, power_code, f3_code)
+            await self._api.async_send_control(device, power_code, f3_code, f2_code)
         except AuthenticationError:
             await self._api.async_ensure_authenticated()
-            await self._api.async_send_control(device, power_code, f3_code)
+            await self._api.async_send_control(device, power_code, f3_code, f2_code)
         self.coordinator.async_request_delayed_refresh()

@@ -61,6 +61,9 @@
     "switch": {
       "humidification": {
         "name": "Humidification"
+      },
+      "child_lock": {
+        "name": "Child Lock"
       }
     },
     "sensor": {
@@ -106,6 +109,13 @@
       },
       "humidification": {
         "name": "Humidification",
+        "state": {
+          "on": "On",
+          "off": "Off"
+        }
+      },
+      "child_lock": {
+        "name": "Child Lock",
         "state": {
           "on": "On",
           "off": "Off"
@@ -160,6 +170,24 @@
       },
       "raw_payload": {
         "name": "Raw API Payload"
+      },
+      "led_brightness": {
+        "name": "LED Brightness",
+        "state": {
+          "auto": "Auto",
+          "dim": "Dim",
+          "off": "Off"
+        }
+      }
+    },
+    "select": {
+      "led_brightness": {
+        "name": "LED Brightness",
+        "state": {
+          "auto": "Auto",
+          "dim": "Dim",
+          "off": "Off"
+        }
       }
     }
   }
