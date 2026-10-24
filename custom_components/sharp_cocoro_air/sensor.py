@@ -90,6 +90,22 @@ SENSOR_DESCRIPTIONS: tuple[SharpSensorDescription, ...] = (
         value_fn=lambda s: _bool_state(s.humidification_on, "on", "off"),
     ),
     SharpSensorDescription(
+        key="child_lock",
+        translation_key="child_lock",
+        device_class=SensorDeviceClass.ENUM,
+        options=["on", "off"],
+        value_fn=lambda s: _bool_state(s.child_lock, "on", "off"),
+        power_dependent=False,
+    ),
+    SharpSensorDescription(
+        key="led_brightness",
+        translation_key="led_brightness",
+        device_class=SensorDeviceClass.ENUM,
+        options=["auto", "dim", "off"],
+        value_fn=lambda s: s.led_brightness,
+        power_dependent=False,
+    ),
+    SharpSensorDescription(
         key="fine_particles",
         translation_key="fine_particles",
         native_unit_of_measurement="pcs/L",
